@@ -1,0 +1,35 @@
+OCaml version 4.02.3
+
+# 2 + 3 ;;
+- : int = 5
+# 2 + 3
+  ;;
+- : int = 5
+# 2 +
+  3 ;;
+- : int = 5
+# let five = 2 + 3 ;;
+val five : int = 5
+# five ;;
+- : int = 5
+# let plus x y = x + y ;;
+val plus : int -> int -> int = <fun>
+# plus 2 3 ;;
+- : int = 5
+# let rec fact n = if (n = 0) then 1 else (fact (n - 1)) ;;
+val fact : int -> int = <fun>
+# fact (plus five 1) ;;
+- : int = 1
+# let rec fact n = if (n = 0) then 1 else n * (fact (n - 1)) ;;
+val fact : int -> int = <fun>
+# fact (plus five 1) ;;
+- : int = 720
+
+# #use "lab01.ml" ;;
+val fib : int -> int = <fun>
+# fib 6 ;;
+- : int = 8
+# fib 13 ;;
+- : int = 233
+# fib 20 ;;
+- : int = 6765

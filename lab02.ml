@@ -3,7 +3,7 @@
 
 let five = (2 + 3)
 
-let myfun x = x.[0]
+let myfun x = x.[2]
 
 let mult x y = x * y
 

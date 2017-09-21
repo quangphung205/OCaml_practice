@@ -1,10 +1,10 @@
 
 /**************************
- * bignum_math.c -- an outline for CLab1
- *
- * orginially written by Andy Exley
- * modified by Emery Mizero
- **************************/
+* bignum_math.c -- an outline for CLab1
+*
+* orginially written by Andy Exley
+* modified by Emery Mizero
+**************************/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,117 +13,120 @@
 
 
 /*
- * Returns true if the given char is a digit from 0 to 9
- */
+* Returns true if the given char is a digit from 0 to 9
+*/
 bool is_digit(char c) {
 	return c >= '0' && c <= '9';
 }
 
 /*
- * Returns true if lower alphabetic character
- */
+* Returns true if lower alphabetic character
+*/
 bool is_lower_alphabetic(char c) {
 	return c >= 'a' && c <= 'z';
 }
 
 /*
- * Returns true if upper alphabetic character
- */
+* Returns true if upper alphabetic character
+*/
 bool is_upper_alphabetic(char c) {
 	return c >= 'A' && c <= 'Z';
 }
 
 /*
- * Convert a string to an integer
- * returns 0 if it cannot be converted.
- */
+* Convert a string to an integer
+* returns 0 if it cannot be converted.
+*/
 int string_to_integer(char* input) {
 	int result = 0;
 	int length = strlen(input);
-    int num_digits = length;
+	int num_digits = length;
 	int sign = 1;
-	
-	int i = 0;
-    int factor = 1;
 
-    if (input[0] == '-') {
+	int i = 0;
+	int factor = 1;
+
+	if (input[0] == '-') {
 		num_digits--;
 		sign = -1;
-    }
-
-	for (i = 0; i < num_digits; i++, length--) {
-		if (!is_digit(input[length-1])) {
-			return 0;
-		}
-		if (i > 0) factor*=10;
-		result += (input[length-1] - '0') * factor;
 	}
 
-    return sign * result;
+	for (i = 0; i < num_digits; i++, length--) {
+		if (!is_digit(input[length - 1])) {
+			return 0;
+		}
+		if (i > 0) factor *= 10;
+		result += (input[length - 1] - '0') * factor;
+	}
+
+	return sign * result;
 }
 
 /*
- * Returns true if the given base is valid.
- * that is: integers between 2 and 36
- */
+* Returns true if the given base is valid.
+* that is: integers between 2 and 36
+*/
 bool valid_base(int base) {
-	if(!(base >= 2 && base <= 36)) { 
-		return false; 
+	if (!(base >= 2 && base <= 36)) {
+		return false;
 	}
 	return true;
 }
 
 /*
- * TODO - Completed
- * Returns true if the given string (char array) is a valid input,
- * that is: digits 0-9, letters A-Z, a-z
- * and it should not violate the given base and should not handle negative numbers
- */
-bool valid_input(char* input, int base) {	
+* TODO - Completed
+* Returns true if the given string (char array) is a valid input,
+* that is: digits 0-9, letters A-Z, a-z
+* and it should not violate the given base and should not handle negative numbers
+*/
+bool valid_input(char* input, int base) {
 	for (int i = 0; i < strlen(input); i++)
 	{
 		char c = input[i];
 		// Check if each character of the input is valid (numbers and characters only)
 		if (!is_digit(c) && !is_lower_alphabetic(c) && !is_upper_alphabetic(c)
 			|| !(2 <= base && base <= 36))
-		{		
+		{
 			return false;
 		}
-		
-		/* 
-		 * Each base has an upper bound (UB) digit/letter
-		 * Ex: UB of base 2 is '1' (ASCII = 49) -> 49 - 2 = 47
-		 *     UB of base 16 is 'f' (ASCII = 102) -> 102 - 16 = 86
-		 *     UB of base 36 is 'Z' (ASCII = 90) -> 90 - 36 = 54
-		 * Return false if any digit/letter exceeds this limit
-		 */
+
+		/*
+		* Each base has an upper bound (UB) digit/letter
+		* Ex: UB of base 2 is '1' (ASCII = 49)   ->  49 - 2 = 47
+		*     UB of base 16 is 'f' (ASCII = 102) ->  102 - 16 = 86
+		*     UB of base 36 is 'Z' (ASCII = 90)  ->  90 - 36 = 54
+		* Return false if any digit/letter exceeds this limit
+		*/
 		if ((is_digit(c) && (c > (base + 47)))
 			|| (is_lower_alphabetic(c) && (c > (base + 86)))
 			|| (is_upper_alphabetic(c) && (c > (base + 54))))
-		{			
+		{
 			return false;
-		}						
+		}
 	}
 
 	return true;
 }
 
 /*
- * converts from an array of characters (string) to an array of integers
- */
+* converts from an array of characters (string) to an array of integers
+*/
 int* string_to_integer_array(char* str) {
 	int* result;
 	int i, str_offset = 0;
-		result = malloc((strlen(str) + 1) * sizeof(int));
-		result[strlen(str)] = -1;
-	for(i = str_offset; str[i] != '\0'; i++) {
-		if(is_digit(str[i])) { 
+	result = (int*)malloc((strlen(str) + 1) * sizeof(int));
+	result[strlen(str)] = -1;
+	for (i = str_offset; str[i] != '\0'; i++) {
+		if (is_digit(str[i])) {
 			result[i - str_offset] = str[i] - '0';
-		} else if (is_lower_alphabetic(str[i])) {
+		}
+		else if (is_lower_alphabetic(str[i])) {
 			result[i - str_offset] = str[i] - 'a' + 10;
-		} else if (is_upper_alphabetic(str[i])) {
+		}
+		else if (is_upper_alphabetic(str[i])) {
 			result[i - str_offset] = str[i] - 'A' + 10;
-		} else {
+		}
+		else {
 			printf("I don't know how got to this point!\n");
 		}
 	}
@@ -131,32 +134,34 @@ int* string_to_integer_array(char* str) {
 }
 
 /*
- * finds the length of a bignum... 
- * simply traverses the bignum until a negative number is found.
- */
+* finds the length of a bignum...
+* simply traverses the bignum until a negative number is found.
+*/
 int bignum_length(int* num) {
 	int len = 0;
-	while(num[len] >= 0) { len++; }
+	while (num[len] >= 0) { len++; }
 	return len;
 }
 
 /*
- * TODO - Completed
- * Prints out a bignum using digits and lower-case characters
- * Current behavior: prints integers
- * Expected behavior: prints characters
- */
+* TODO - Need to handle negative numbers
+* Prints out a bignum using digits and lower-case characters
+* Current behavior: prints integers
+* Expected behavior: prints characters
+*/
 void bignum_print(int* num) {
 	int i;
-	if(num == NULL) { return; }
+	if (num == NULL) { return; }
 
 	/* Handle negative numbers as you want */
 	i = bignum_length(num);
 
 	/* Then, print each digit */
-	for(i = 0; num[i] >= 0; i++) {
-		if (num[i] < 10)		
-			printf("%d", num[i]);
+	for (i = 0; num[i] >= 0; i++) {
+		if (num[i] == 45)	// '-' sign of negative numbers
+			printf("%c", num[i]);
+		else if (num[i] < 10)
+			printf("%d", num[i]);		
 		else
 			printf("%c", num[i] + 87);
 	}
@@ -164,47 +169,48 @@ void bignum_print(int* num) {
 }
 
 /*
- *	Helper for reversing the result that we built backward.
- *  see add(...) below
- */
+*	Helper for reversing the result that we built backward.
+*  see add(...) below
+*/
 void reverse(int* num) {
 	int i, len = bignum_length(num);
-	for(i = 0; i < len/2; i++) {
+	for (i = 0; i < len / 2; i++) {
 		int temp = num[i];
-		num[i] = num[len-i-1];
-		num[len-i-1] = temp;
+		num[i] = num[len - i - 1];
+		num[len - i - 1] = temp;
 	}
 }
 
-
 /*
- * used to add two numbers with the same sign
- * GIVEN FOR GUIDANCE
- */
+* used to add two numbers with the same sign
+* GIVEN FOR GUIDANCE
+*/
 int* add(int* input1, int* input2, int base) {
 	int len1 = bignum_length(input1);
 	int len2 = bignum_length(input2);
-	int resultlength = ((len1 > len2)? len1 : len2) + 2;
-	int* result = (int*) malloc (sizeof(int) * resultlength);
+	int resultlength = ((len1 > len2) ? len1 : len2) + 2;
+	int* result = (int*)malloc(sizeof(int) * resultlength);
 	int r = 0;
 	int carry = 0;
 	int sign = input1[len1];
-   	int num1, num2;
+	int num1, num2;
 
 	len1--;
 	len2--;
 
 	while (len1 >= 0 || len2 >= 0) {
 		if (len1 >= 0) {
-		    num1 = input1[len1];
-		} else {
-		    num1 = 0;
+			num1 = input1[len1];
+		}
+		else {
+			num1 = 0;
 		}
 
 		if (len2 >= 0) {
-		    num2 = input2[len2];
-		} else {
-		    num2 = 0;
+			num2 = input2[len2];
+		}
+		else {
+			num2 = 0;
 		}
 
 		result[r] = (num1 + num2 + carry) % base;
@@ -215,145 +221,241 @@ int* add(int* input1, int* input2, int base) {
 	}
 
 	if (carry > 0) {
-		result[r] = carry; 
-		r++; 
-    	}
+		result[r] = carry;
+		r++;
+	}
 	result[r] = sign;
 	reverse(result);
 	return result;
 }
 
 /*
- * This function returns true if the first number is less than the second number, false otherwise
- */
+* This function returns true if the first number is less than the second number, false otherwise
+*/
 bool isLessThan(int* input1, int* input2)
 {
-  int len1  = bignum_length(input1);
-  int len2  = bignum_length(input2);
+	int len1 = bignum_length(input1);
+	int len2 = bignum_length(input2);
 
-  // The number which has less length is the smaller
-  if (len1 < len2)
-    return true;
-  else if (len1 > len2)
-    {
-      printf("len1 %d > len2 %d\n", len1, len2);
-      return false;          
-    }
-
-  else
-    {
-      // Both have the same length, need to check each digit/letter manually,
-      // starting from the most significant one.
-      for (int i = 0; i < len1; i++)
-	{	  
-	  if (input1[i] > input2[i])
-	    {
-	      printf("input1 > input2\n");
-	      return false;
-	    }
-
-
-	  // return false if they're equal to each other
-	  if (i == (len1 - 1) && (input1[i] == input2[i]))
-	    {
-	      printf("they are equal\n");
-	      return false;
-	    }
-	   
-
+	// The number which has less length is the smaller
+	if (len1 < len2)
+		return true;
+	else if (len1 > len2)
+	{		
+		return false;
 	}
-    }
 
-  return true;
+	else
+	{
+		// Both have the same length, need to check each digit/letter manually,
+		// starting from the most significant one.
+		for (int i = 0; i < len1; i++)
+		{
+			if (input1[i] > input2[i])
+			{				
+				return false;
+			}
+
+			if (input1[i] < input2[i])
+			{
+				return true;
+			}			
+		}
+	}
+
+	return false;
 }
 
 /*
- * This function returns true if the first number is greater than the second number, false otherwise
- */
+* This function returns true if the first number is greater than the second number, false otherwise
+*/
 bool isGreaterThan(int* input1, int* input2)
 {
-  int len1  = bignum_length(input1);
-  int len2  = bignum_length(input2);
+	int len1 = bignum_length(input1);
+	int len2 = bignum_length(input2);
 
-  // The number which has more length is the bigger
-  if (len1 > len2)
-    return true;
-  else if (len1 < len2)
-    return false;
-  else
-    {
-      // Both have the same length, need to check each digit/letter manually,
-      // starting from the most significant one.
-      for (int i = 0; i < len1; i++)
-	{	  
-	  if (input1[i] < input2[i])
-	    return false;
+	// The number which has more length is the bigger
+	if (len1 > len2)
+		return true;
+	else if (len1 < len2)
+		return false;
+	else
+	{
+		// Both have the same length, need to check each digit/letter manually,
+		// starting from the most significant one.
+		for (int i = 0; i < len1; i++)
+		{
+			if (input1[i] < input2[i])
+				return false;
 
-	  // return false if they're equal to each other
-	  if (i == (len1 - 1) && (input1[i] == input2[i]))
-	    return false;
+			if (input1[i] > input2[i])
+				return true;
+		}
 	}
-    }
 
-  return true; 
+	return false;
 }
 
 /*
- * This function returns true if both numbers are equal, false otherwise
- */
+* This function returns true if both numbers are equal, false otherwise
+*/
 bool isEqualTo(int* input1, int* input2)
 {
-  int len1  = bignum_length(input1);
-  int len2  = bignum_length(input2);
+	int len1 = bignum_length(input1);
+	int len2 = bignum_length(input2);
 
-  // The number which has less length is the smaller
-  if (len1 != len2)
-    return false;
-  else
-    {
-      // Both have the same length, need to check each digit/letter manually,
-      // starting from the most significant one.
-      for (int i = 0; i < len1; i++)
-	{	  
-	  if (input1[i] != input2[i])
-	    return false;
+	// The number which has less length is the smaller
+	if (len1 != len2)
+		return false;
+	else
+	{
+		// Both have the same length, need to check each digit/letter manually,
+		// starting from the most significant one.
+		for (int i = 0; i < len1; i++)
+		{
+			if (input1[i] != input2[i])
+				return false;
+		}
 	}
-    }
 
-  return true;
+	return true;
 }
 
-
 /*
- * TODO
- * This function is where you will write the code that performs the heavy lifting, 
- * actually performing the calculations on input1 and input2.
- * Return your result as an array of integers.
- * HINT: For better code structure, use helper functions.
- */
-int* perform_math(int* input1, int* input2, char op, int base) {
-
-	/* 
-	 * this code initializes result to be large enough to hold all necessary digits.
-	 * if you don't use all of its digits, just put a -1 at the end of the number.
-	 * you may omit this result array and create your own.
-     */
-
-    	int len1 = bignum_length(input1);
+* used to subtract two positive numbers
+* the result could be negative or positive
+*/
+int* subtract(int* input1, int* input2, int base, bool isNegative) {
+	int len1 = bignum_length(input1);
 	int len2 = bignum_length(input2);
-	int resultlength = ((len1 > len2)? len1 : len2) + 1;
-	int* result = (int*) malloc (sizeof(int) * resultlength);
- 
-	if(op == '+') {
-		return add(input1, input2, base);
+	int resultlength = ((len1 > len2) ? len1 : len2) + 2;
+	int* result = (int*)malloc(sizeof(int) * resultlength);
+
+	if (isEqualTo(input1, input2)) {
+		// Two numbers are equal to each other. 0 is returned		
+		result[0] = 0;
+		result[1] = -1;
 	}
-/* Write your logic for subtraction and comparison here*/
+	else if (isLessThan(input1, input2)) {
+		// Input1 > Input2. The result will be a negative number
+		result = subtract(input2, input1, base, true);
+	}
+	else {
+		int r = 0;
+		int carry = 0;
+		int sign = input1[len1];
+		int num1, num2;
+
+		len1--;
+		len2--;
+
+		while (len1 >= 0 || len2 >= 0) {
+			if (len1 >= 0) {
+				num1 = input1[len1];
+			}
+			else {
+				num1 = 0;
+			}
+
+			if (len2 >= 0) {
+				num2 = input2[len2];
+			}
+			else {
+				num2 = 0;
+			}			
+
+			if ((num1 - carry) < num2) {
+				result[r] = (num1 - carry + base - num2);
+				carry = 1;
+			}
+			else {
+				result[r] = (num1 - carry - num2);
+				carry = 0;
+			}
+
+			len1--;
+			len2--;
+			r++;
+		}
+
+		// Trimming leading zeros of the result
+		while (result[r - 1] == 0)
+			r--;
+
+		if (isNegative) {
+			result[r] = 45;
+			r++;
+		}
+		result[r] = sign;
+		reverse(result);
+	}
 	return result;
 }
 
 /*
- * Print to "stderr" and exit program
- */
+* TODO
+* This function is where you will write the code that performs the heavy lifting,
+* actually performing the calculations on input1 and input2.
+* Return your result as an array of integers.
+* HINT: For better code structure, use helper functions.
+*/
+int* perform_math(int* input1, int* input2, char op, int base) {
+
+	/*
+	* this code initializes result to be large enough to hold all necessary digits.
+	* if you don't use all of its digits, just put a -1 at the end of the number.
+	* you may omit this result array and create your own.
+	*/
+
+	int len1 = bignum_length(input1);
+	int len2 = bignum_length(input2);
+	int resultlength = ((len1 > len2) ? len1 : len2) + 1;
+	int* result = (int*)malloc(sizeof(int) * resultlength);
+	result[0] = -1;
+
+	if (op == '+') {
+		return add(input1, input2, base);	
+	}
+	else if (op == '-') {
+		return subtract(input1, input2, base, false);
+	}
+	else if (op == '<') {
+		if (isLessThan(input1, input2)) {
+			int temp[5] = { 29,27,30,14,-1 };			
+			memcpy(result, temp, sizeof(temp));			
+		}
+		else {
+			int temp[6] = { 15,10,21,28,14,-1 };
+			memcpy(result, temp, sizeof(temp));			
+		}		
+	}
+	else if (op == '>') {
+		if (isGreaterThan(input1, input2)) {
+			int temp[5] = { 29,27,30,14,-1 };
+			memcpy(result, temp, sizeof(temp));
+		}
+		else {
+			int temp[6] = { 15,10,21,28,14,-1 };
+			memcpy(result, temp, sizeof(temp));
+		}
+	}
+	else if (op == '=') {
+		if (isEqualTo(input1, input2)) {
+			int temp[5] = { 29,27,30,14,-1 };
+			memcpy(result, temp, sizeof(temp));
+		}
+		else {
+			int temp[6] = { 15,10,21,28,14,-1 };
+			memcpy(result, temp, sizeof(temp));
+		}
+	}
+	/* Write your logic for subtraction and comparison here*/
+	return result;
+}
+
+/*
+* Print to "stderr" and exit program
+*/
 void print_usage(char* name) {
 	fprintf(stderr, "----------------------------------------------------\n");
 	fprintf(stderr, "Usage: %s base input1 operation input2\n", name);
@@ -366,58 +468,62 @@ void print_usage(char* name) {
 
 
 /*
- * MAIN: Run the program and tests your functions.
- * sample command: ./bignum 4 12 + 13
- * Result: 31
- */
+* MAIN: Run the program and tests your functions.
+* sample command: ./bignum 4 12 + 13
+* Result: 31
+*/
 int main(int argc, char** argv) {
 
 	int input_base;
 
 	int* input1;
-    int* input2;
-    int* result;
-    /*
-	if(argc != 5) { 
-		print_usage(argv[0]); 
+	int* input2;
+	int* result;
+	
+	if(argc != 5) {
+	print_usage(argv[0]);
 	}
 
 	input_base = string_to_integer(argv[1]);
 
-	if(!valid_base(input_base)) { 
-		fprintf(stderr, "Invalid base: %s\n", argv[1]);
-		print_usage(argv[0]);
-	}
-	
-
-	if(!valid_input(argv[2], input_base)) { 
-		fprintf(stderr, "Invalid input1: %s\n", argv[2]);
-		print_usage(argv[0]);
+	if(!valid_base(input_base)) {
+	fprintf(stderr, "Invalid base: %s\n", argv[1]);
+	print_usage(argv[0]);
 	}
 
-	if(!valid_input(argv[4], input_base)) { 
-		fprintf(stderr, "Invalid input2: %s\n", argv[4]);
-		print_usage(argv[0]);
+
+	if(!valid_input(argv[2], input_base)) {
+	fprintf(stderr, "Invalid input1: %s\n", argv[2]);
+	print_usage(argv[0]);
 	}
 
-        char op = argv[3][0];
+	if(!valid_input(argv[4], input_base)) {
+	fprintf(stderr, "Invalid input2: %s\n", argv[4]);
+	print_usage(argv[0]);
+	}
+
+	char op = argv[3][0];
 	if(op != '-' && op != '+' && op != '<' && op != '>' && op != '=') {
-		fprintf(stderr, "Invalid operation: %s\n", argv[3]);
-		print_usage(argv[0]);
+	fprintf(stderr, "Invalid operation: %s\n", argv[3]);
+	print_usage(argv[0]);
 	}
 
 	input1 = string_to_integer_array(argv[2]);
-    input2 = string_to_integer_array(argv[4]);
+	input2 = string_to_integer_array(argv[4]);
 
-    result = perform_math(input1, input2, argv[3][0], input_base);
+	result = perform_math(input1, input2, argv[3][0], input_base);
 
-    printf("Result: ");
-    bignum_print(result);
+	printf("Result: ");
+	bignum_print(result);
 	printf("\n");
-    */
+	
 
-    int a[6] = {1,2,3,4,5,-1};
-    int b[6] = {1,2,3,4,6,-1};
-    printf ("%s\n", isLessThan(a, b) ? "true" : "false");
+	/*
+	int a[5] = { 1,2,3,-1 };
+	int b[5] = { 1,2,4, -1 };
+	result = perform_math(a, b, '-', 10);
+	bignum_print(result);
+	//printf("%s\n", isLessThan(a, b) ? "true" : "false");
+	*/
 	exit(0);
 }

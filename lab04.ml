@@ -86,3 +86,5 @@ let perimeter s =
    | Circ (c,r) -> 2. *. r *. pi
    | Triangle (v1,v2,v3) -> (distance (v1,v2)) +. (distance (v2,v3)) +. (distance (v3,v1))
    | Quadrangle (v1,v2,v3,v4) -> (distance (v1,v2)) +. (distance (v2,v3)) +. (distance (v3,v4)) +. (distance (v4,v1))
+
+(* End of lab04.ml *)

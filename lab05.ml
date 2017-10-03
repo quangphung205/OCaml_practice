@@ -10,6 +10,9 @@ type 'a btree =
   | Node of 'a * 'a btree * 'a btree
 
 (* P1_1. *)
+(* maxTree: 'a btree -> 'a option
+   precondition: input is a BST
+   invariant: return the max element of a BST *)
 let rec maxTree = function
   | Empty -> None
   | Node (n, _, right) ->
@@ -17,6 +20,9 @@ let rec maxTree = function
      else maxTree right
 
 (* P1_2. *)
+(* minTree: 'a btree -> 'a option
+   precondition: input is a BST
+   invariant: return the min element of a BST *)
 let rec minTree = function
   | Empty -> None
   | Node (n, left, _) ->
@@ -49,6 +55,7 @@ let t2 = Node("Quang", Node("Jane", Empty,
 let t3 = Node(1, Node(2, Empty, Empty),
 	      Node(4, Empty, Node(3, Empty, Empty)))
 
+
 (* Solution to problem 2 *)
 type  expr' =
   Int' of int | True' | False'
@@ -60,6 +67,9 @@ type  expr' =
 (* P2_1. *)
 type ty = IntTy | BoolTy
 
+(* typeof: expr' -> ty option
+   precondition: input is an expression
+   invariant: output the valid type of input *)
 let rec typeof = function   
   | Int' _ -> Some IntTy
   | True' | False' -> Some BoolTy     
@@ -77,6 +87,9 @@ let rec typeof = function
      else None
 
 (* P2_2. *)
+(* wellTyped: expr' -> bool
+   precondition: input is an expression
+   variant: return true if an expression is well-typed, false otherwise *)
 let wellTyped expr =
   match (typeof expr) with
   | None -> false
@@ -95,10 +108,10 @@ let e3 = Cond' (And' (Lss' (Int' 10, Plus' (Int' 5, Int' 7)), True'),
 
 (* Solution to problem 3 *)
 type ocamlTy =
-  | IntTy' of int
-  | BoolTy' of bool
+  | IntTy of int
+  | BoolTy of bool
   | VarTy of string
-  | ListTy of ocamlTy
+  | ListTy of ocamlTy list
   | FuncTy of ocamlTy * ocamlTy
 
 (* End of lab05.ml *)

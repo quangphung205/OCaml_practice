@@ -108,10 +108,10 @@ let e3 = Cond' (And' (Lss' (Int' 10, Plus' (Int' 5, Int' 7)), True'),
 
 (* Solution to problem 3 *)
 type ocamlTy =
-  | IntTy of int
-  | BoolTy of bool
+  | IntTy
+  | BoolTy
   | VarTy of string
-  | ListTy of ocamlTy list
+  | ListTy of ocamlTy
   | FuncTy of ocamlTy * ocamlTy
 
 (* End of lab05.ml *)

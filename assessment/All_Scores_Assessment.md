@@ -6,15 +6,15 @@ If these scores are different from what you expect, please see the graduate TAs 
 
 
 
-This report was generated at October 08, 21:00:53 PM for phung043. We will try to push updated reports every week.
+This report was generated at October 08, 21:43:02 PM for phung043. We will try to push updated reports every week.
 
 ## Lab Attendance
 
-Your attendance is recorded for Lab 1, Lab 3,  and Lab 5.
+Your attendance is recorded for Lab 1, Lab 3, Lab 4,  and Lab 5.
 
-You did not attend Lab 2 and Lab 4.
+You did not attend Lab 2.
 
-This is a total of 3 out of 5 labs attended.
+This is a total of 4 out of 5 labs attended.
 
 
 

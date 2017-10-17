@@ -106,19 +106,52 @@ type expr =
      | Fun of string * expr             (* for fun x -> exp *)
      | App of expr * expr               (* for (exp1 exp2) *)
 
+(* P5_1. *)
 (* freeIn: expr -> string -> bool
    precondition: input is an expression and a string of an identifier's name
    invariant: output returns true if the identifier is unbound, false otherwise *)
 let rec freeIn e x =
-   let rec mem x lst =
-      match lst with
-      | [] -> false
-      | (h::t) -> if (h = x) then true else (mem x t)
-   in match e with
-      | Let (s, e1, e2) ->
-            if (s = x) then false
-            else (freeIn e1 x) && (freeIn e2 x)
-      | Fun (s, e) -> if (s = x) then false else (freeIn e x)
-      | _ -> true
+   match e with
+   | Id s -> if (s = x) then true else false
+   | Int _ -> false
+   | True | False -> false
+   | Plus (e1, e2) | Minus (e1, e2) | Times (e1, e2) | Div (e1, e2) -> (freeIn e1 x) || (freeIn e2 x)
+   | Lss (e1, e2) | Eq (e1, e2) | Gtr (e1, e2) -> (freeIn e1 x) || (freeIn e2 x)
+   | And (e1, e2) | Or (e1, e2) -> (freeIn e1 x) || (freeIn e2 x)
+   | Not e -> freeIn e x
+   | Cond (e1, e2, e3) -> (freeIn e1 x) || (freeIn e2 x) || (freeIn e3 x)
+   | Let (s, e1, e2) -> (s <> x) && ((freeIn e1 x) || (freeIn e2 x))
+   | Fun (s, e) -> (s <> x) && (freeIn e x)
+   | App (e1, e2) -> (freeIn e1 x) || (freeIn e2 x)
 
+
+(* P5_2. *)
+let namecounter = ref 0
+let newname () =
+     ( namecounter := !namecounter + 1; "var" ^ string_of_int !namecounter)
+
+(* subst: expr -> string -> expr -> expr
+   precondition: input has an expression, a name of an identifier, and a new expression to substitute
+   invariant: replace each occurrence of an identifier with a new expression
+              based on some certain conditions *)
+let rec subst e1 x e2 =
+   match e1 with
+   | Id s -> if (s = x) then e2 else e1
+   | Int i -> Int i
+   | True -> True
+   | False -> False
+   | Plus (e3, e4) -> Plus (subst e3 x e2, subst e4 x e2)
+   | Minus (e3, e4) -> Minus (subst e3 x e2, subst e4 x e2)
+   | Times (e3, e4) -> Times (subst e3 x e2, subst e4 x e2)
+   | Div (e3, e4) -> Div (subst e3 x e2, subst e4 x e2)
+   | Lss (e3, e4) -> Lss (subst e3 x e2, subst e4 x e2)
+   | Eq (e3, e4) -> Eq (subst e3 x e2, subst e4 x e2)
+   | Gtr (e3, e4) -> Gtr (subst e3 x e2, subst e4 x e2)
+   | And (e3, e4) -> And (subst e3 x e2, subst e4 x e2)
+   | Or (e3, e4) -> Or (subst e3 x e2, subst e4 x e2)
+   | Not e -> subst e x e2
+   | Cond (e3, e4, e5) -> Cond (subst e3 x e2, subst e4 x e2, subst e5 x e2)
+   
+              
+   
 (* End of hw3.ml *)

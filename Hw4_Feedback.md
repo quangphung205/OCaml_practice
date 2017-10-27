@@ -5,7 +5,7 @@ This feedback is generated to assist you in fulfilling the basic requirements (n
             This feedback is *not* an exhaustive test suite. You are responsible for ensuring that the specification in the
             written description is satisfied by your code, which will require additional test cases that you create.
 
-Run on October 27, 10:40:53 AM.
+Run on October 27, 16:41:56 PM.
 
 + Pass: Check that file "hw4.ml" exists.
 
@@ -155,7 +155,7 @@ Check that the result of evaluating
 
 
 
-+ Fail: 
++ Pass: 
 Check that the result of evaluating
    ```
    let tr = 
@@ -173,10 +173,5 @@ Check that the result of evaluating
    
 
 
-   Your solution evaluated incorrectly and produced some part of the following:
-
- ` ;;
-[24mError: Unbound value cont_sumTree
-`
 
 

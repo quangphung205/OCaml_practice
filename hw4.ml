@@ -99,7 +99,7 @@ let insertOList x ol =
       match l with
       | [] -> [x]
       | h::t -> if (f x h) then x::l else h::(insert_helper x t f)
-   in insert_helper x ol.data ol.order
+   in { data = insert_helper x ol.data ol.order; order = ol.order }
 
 (* P2_6.
  * olistToList: 'a olist -> 'a list

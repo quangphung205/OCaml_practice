@@ -123,12 +123,11 @@ type 'a btree = Empty | Node of 'a * 'a btree * 'a btree
 (* cont_sumTree : int btree -> (int -> 'a) -> 'a
  * precondition: input is a binary tree and a continuation function
  * invariant: output is the sum of all elements *)
-(*
+
 let rec cont_sumTree btree c =
    match btree with
    | Empty -> (c 0)
-   | Node(i,l,r) -> (cont_sumTree l (cont_sumTree r (fun x -> c (i + x))))
-*)
+   | Node(i,l,r) -> (cont_sumTree l (fun x -> (cont_sumTree r (fun y -> c(x + y + i)))))
 let btree = Node (4, Node (20, Empty, Empty), Node (5, Empty, Empty))
 let btree1 = Node(4, Node (20, Empty, Empty), Empty)
 (* End of hw4.ml *)

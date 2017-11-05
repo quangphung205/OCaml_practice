@@ -6,15 +6,15 @@ If these scores are different from what you expect, please see the graduate TAs 
 
 
 
-This report was generated at October 16, 12:20:35 PM for phung043. We will try to push updated reports every week.
+This report was generated at November 05, 10:32:40 AM for phung043. We will try to push updated reports every week.
 
 ## Lab Attendance
 
-Your attendance is recorded for Lab 1, Lab 3, Lab 4, Lab 5,  and Lab 6.
+Your attendance is recorded for Lab 1, Lab 3, Lab 4, Lab 5, Lab 6, Lab 7, Lab 8,  and Lab 9.
 
 You did not attend Lab 2.
 
-This is a total of 5 out of 6 labs attended.
+This is a total of 8 out of 9 labs attended.
 
 
 
@@ -34,7 +34,19 @@ This is a total of 5 out of 6 labs attended.
 
 
 
-**Homework Total:** 71.5 / 74
+- Homework 2: 62.5 / 69
+
+
+
+- Homework 3: 41 / 43
+
+
+
+- Homework 4: 40 / 42
+
+
+
+**Homework Total:** 215 / 228
 
 
 

@@ -1,0 +1,108 @@
+(* Name: Quang Phung
+ * Course: CSCI 2041
+ * Homework 5
+ * Due Date: 11/10/17
+ *)
+
+
+(* Solution to Problem 1 *)
+(* Problem 1, Part 1
+ * A state should represent two variables rev and l each of which is a int list type *)
+type state = (int list) * (int list)
+
+(* Problem 1, Part 2 *)
+let getRev (rev, l) = rev
+let getL (rev, l) = l
+
+let putRev exp s = let (rev, l) = s in (exp s, l)
+let putL exp s = let (rev, l) = s in (rev, exp s)
+
+(* Problem 1, Part 3 *)
+let seq stat1 stat2 =
+        fun s -> (stat2 (stat1 s))
+
+let ifstat exp stat1 stat2 =
+    fun s -> if (exp s) then (stat1 s)
+             else (stat2 s)
+
+let rec whilestat exp stat =
+   fun s ->
+      ifstat exp
+             (seq stat (whilestat exp stat))
+             (fun x -> x) s
+
+let emptyList = fun s -> []
+
+let l_not_empty_list = fun s -> (getL s) <> []
+
+let l_get_head = fun s -> let (h::t) = (getL s) in h
+
+let l_get_tail = fun s -> let (h::t) = (getL s) in t
+
+let append_lHead_to_rev =
+   fun s -> let rev = getRev s
+            in let x = l_get_head s
+	       in x::rev
+
+let revprog =
+   (seq (putRev emptyList)
+        (whilestat (l_not_empty_list)
+	    (seq (putRev append_lHead_to_rev)
+	         (putL l_get_tail))))
+	         
+(* Problem 1, Part 4 *)
+let revlist l = let (result, l1) = revprog ([], l) in result
+
+
+(* Solution to Problem 2 *)
+(* Problem 2, Part 1 *)
+let seq stat1 stat2 =
+        fun s -> (stat2 (stat1 s))
+	
+let ifstat exp stat1 stat2 =
+    fun s -> if (exp s) then (stat1 s)
+             else (stat2 s)
+	     
+let rec dostat stat exp =
+   fun s ->
+      (seq stat
+         (ifstat exp (dostat stat exp)
+	             (fun x -> x)) s)
+
+(* Problem 2, Part 2*)
+(* 2.2.a
+ * A state should represent 3 variables: i, sum, and n.
+ * All of these variables have int type.
+ * Type of state: int * int * int
+ *)
+type state = int * int * int
+
+(* 2.2.b *)
+let getI (i, n, sum) = i
+let getN (i, n, sum) = n
+let getSum (i, n, sum) = sum
+
+let putI exp s =
+   let (i, n, sum) = s in (exp s, n, sum)
+let putN exp s =
+   let (i, n, sum) = s in (i, exp s, sum)
+let putSum exp s =
+   let (i, n, sum) = s in (i, n, exp s)
+
+(* 2.2.c *)
+let zero = fun s -> 0
+let i_plus_one = fun s -> (getI s) + 1
+let sum_plus_i = fun s -> (getSum s) + (getI s)
+let i_less_than_n = fun s -> (getI s) < (getN s)
+
+let sumup =
+    (seq (putI zero)
+         (seq (putSum zero)
+	      (dostat (seq (putI i_plus_one)
+	                   (putSum sum_plus_i))
+		      i_less_than_n)))
+
+(* 2.2.d *)
+let sumToN n =
+   let (i, n, sum) = sumup (0, n, 0)
+   in sum

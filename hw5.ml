@@ -7,7 +7,7 @@
 (* Solution to Problem 1 *)
 (* Problem 1, Part 1
  * A state should represent two variables rev and l each of which is an int list *)
-type state = (int list) * (int list)
+type state1 = (int list) * (int list)
 
 (* Problem 1, Part 2 *)
 let getRev (rev, l) = rev
@@ -77,7 +77,7 @@ let rec dostat stat exp =
  * All of these variables have an int type.
  * Type of state: int * int * int
  *)
-type state = int * int * int
+type state2 = int * int * int
 
 (* 2.2.b *)
 let getI (i, n, sum) = i

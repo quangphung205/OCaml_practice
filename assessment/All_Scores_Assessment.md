@@ -6,7 +6,7 @@ If these scores are different from what you expect, please see the graduate TAs 
 
 
 
-This report was generated at November 05, 10:32:40 AM for phung043. We will try to push updated reports every week.
+This report was generated at November 11, 16:10:41 PM for phung043. We will try to push updated reports every week.
 
 ## Lab Attendance
 
@@ -58,7 +58,11 @@ This is a total of 8 out of 9 labs attended.
 
 
 
-**Examination Total:** 100 / 100
+- Midterm 2: 93.5 / 100
+
+
+
+**Examination Total:** 193.5 / 200
 
 
 

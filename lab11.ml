@@ -41,5 +41,6 @@ let get_num_from_user () =
   (Printf.printf "Enter a number: "; flush stdout;
    match (readnum stdin) with
    | None -> Printf.printf "Bad input\n"
-   | (Some n) -> Printf.printf "Your input: %d\n" n)				     
+   | (Some n) -> Printf.printf "Your input: %d\n" n)	
+			     
 (* End of lab11.ml *)

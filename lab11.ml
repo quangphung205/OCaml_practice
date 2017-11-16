@@ -27,8 +27,10 @@ let readnum infile =
        else ch in
   let is_digit ch = (ch >= '0' && ch <= '9') in
   let rec getnum num =
-       (* Fill code in here *)
-         num
+      let ch = skip_space ()
+      in if (is_digit ch)
+         then getnum (num * 10 + (int_of_char ch - int_of_char '0'))
+         else num
    in let ch = skip_space ()
       in if (is_digit ch)
          then Some (getnum (int_of_char ch - int_of_char '0'))

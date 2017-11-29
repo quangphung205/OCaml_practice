@@ -39,7 +39,7 @@ let show_coloring l =
 (* Problem 1 Specific Code *)
 
 exception Search_Failure
-
+exception No_More_Colors
 let ask_user printer config =
    printer config;
    Printf.printf "More solutions (y/n)? ";
@@ -48,7 +48,7 @@ let ask_user printer config =
    else ()
 
 let color_graph nodes adjacency colors =
-   let rec color_graph_aux nodes colored =
+   let rec color_graph_aux nodes colors colored =
     (* this code should try to extend the colouring
        already present in colored into a colouring
        also for all the nodes in nodes. The general
@@ -64,7 +64,6 @@ let color_graph nodes adjacency colors =
               picking another color for the first node
            5. if the colors for the first node have been
               exhausted, raise an exception to signal failure *)
-       let rec pick_color n nl colors colored =
           let rec check_color (n,color) adjacency colored =
 	     let rec check_color_aux (n,color) alist colored =
 	        match alist with
@@ -74,16 +73,15 @@ let color_graph nodes adjacency colors =
 	     in match adjacency with
 	        | [] -> false
 		| (n',alist)::t -> if (n <> n') then check_color (n,color) t colored
-		                   else check_color_aux (n,color) alist colored
-	  in match colors with
-	     | [] -> raise Search_Failure
-	     | (h::t) -> if ((check_color (n,h) adjacency colored) = false) then
-	    pick_color (List.hd nl) (List.tl nl) colors (List.append [(n,h)] colored)
-        in match nodes with
-	   | [] -> raise Search_Failure
-	   | (h::t) -> raise Search_Failure
-   in try (color_graph_aux nodes []) with
-          Search_Failure -> Printf.printf "\nNo (more) colourings possible\n"
+		                   else check_color_aux (n,color) alist colored	  
+        in match (nodes,colors) with
+	   | ([],_) -> ask_user show_coloring colored
+	   | (_,[]) -> raise No_More_Colors
+	   | ((h1::t1),(h2::t2)) ->  if ((check_color (h1,h2) adjacency colored) = false) then
+	      try (color_graph_aux t1 t2 ((h1,h2)::colored)) with
+	      | Search_Failure -> color_graph_aux nodes t2 colored
+   in try (color_graph_aux nodes colors []) with
+          No_More_Colors -> Printf.printf "\nNo (more) colourings possible\n"
 
 
 (* Solution to Problem 2 *)

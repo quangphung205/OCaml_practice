@@ -39,7 +39,7 @@ let show_coloring l =
 (* Problem 1 Specific Code *)
 
 exception Search_Failure
-exception No_More_Colors
+
 let ask_user printer config =
    printer config;
    Printf.printf "More solutions (y/n)? ";
@@ -82,7 +82,7 @@ let color_graph nodes adjacency colors =
 	      | Search_Failure -> color_graph_aux nodes t2 colored
                                      else color_graph_aux nodes t2 colored
    in try (color_graph_aux nodes colors []) with
-          No_More_Colors -> Printf.printf "\nNo (more) colourings possible\n"
+          Search_Failure -> Printf.printf "\nNo (more) colourings possible\n"
 
 
 (* Solution to Problem 2 *)

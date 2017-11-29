@@ -48,7 +48,7 @@ let ask_user printer config =
    else ()
 
 let color_graph nodes adjacency colors =
-   let rec color_graph_aux nodes colors colored =
+   let rec color_graph_aux nodes colors' colored =
     (* this code should try to extend the colouring
        already present in colored into a colouring
        also for all the nodes in nodes. The general
@@ -74,12 +74,13 @@ let color_graph nodes adjacency colors =
 	        | [] -> false
 		| (n',alist)::t -> if (n <> n') then check_color (n,color) t colored
 		                   else check_color_aux (n,color) alist colored	  
-        in match (nodes,colors) with
+        in match (nodes,colors') with
 	   | ([],_) -> ask_user show_coloring colored
-	   | (_,[]) -> raise No_More_Colors
+	   | (_,[]) -> raise Search_Failure
 	   | ((h1::t1),(h2::t2)) ->  if ((check_color (h1,h2) adjacency colored) = false) then
-	      try (color_graph_aux t1 t2 ((h1,h2)::colored)) with
+	      try (color_graph_aux t1 colors ((h1,h2)::colored)) with
 	      | Search_Failure -> color_graph_aux nodes t2 colored
+                                     else color_graph_aux nodes t2 colored
    in try (color_graph_aux nodes colors []) with
           No_More_Colors -> Printf.printf "\nNo (more) colourings possible\n"
 

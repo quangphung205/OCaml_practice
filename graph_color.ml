@@ -94,7 +94,7 @@ let ask_user_cps printer config succ fail =
    if (read_line () = "y") then (fail ()) else (succ ())
 
 let color_graph_cps nodes adjacency colors =
-   let rec color_graph_aux nodes colored succ fail =
+   let rec color_graph_aux nodes colors' colored succ fail =
     (* this code should try to extend the colouring
        already present in colored into a colouring
        also for all the nodes in nodes. The general
@@ -109,6 +109,23 @@ let color_graph_cps nodes adjacency colors =
               color for the current node.
            4. if no color is available for current node
               invoke the failure continuation  *)
-         ()  (* This is just to make the code compile *)
-   in color_graph_aux nodes [] (fun () -> ())
+           (* This is just to make the code compile *)
+          let rec check_color (n,color) adjacency colored =
+	     let rec check_color_aux (n,color) alist colored =
+	        match alist with
+		| [] -> false
+		| (h::t) -> if (List.mem (h,color) colored) then true
+		            else check_color_aux (n,color) t colored
+	     in match adjacency with
+	        | [] -> false
+		| (n',alist)::t -> if (n <> n') then check_color (n,color) t colored
+		                   else check_color_aux (n,color) alist colored	  
+        in match (nodes,colors') with
+	   | ([],_) -> ask_user_cps (show_coloring colored) succ fail
+	   | (_,[]) -> fail ()
+	   | ((h1::t1),(h2::t2)) ->  if ((check_color (h1,h2) adjacency colored) = false) then
+	       (color_graph_aux t1 colors ((h1,h2)::colored) succ
+                  (fun () -> color_graph_aux nodes t2 colored succ fail))
+                                     else color_graph_aux nodes t2 colored succ fail
+   in color_graph_aux nodes colors [] (fun () -> ())
                                (fun () -> Printf.printf "\nNo (more) colourings\n")

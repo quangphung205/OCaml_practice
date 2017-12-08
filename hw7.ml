@@ -7,8 +7,10 @@
 (* Solution to Problem 1 *)
 (* Part 1: call-by-name
    take (map sqr [1;2;3]) 2
+-> take ((sqr 1) :: (map sqr [2;3])) 2
 -> take (1 :: (map sqr [2;3])) 2
 -> 1 :: (take (map sqr [2;3]) 1)
+-> 1 :: (take ((sqr 2) :: (map sqr [3])) 1)
 -> 1 :: (take (4 :: (map sqr [3])) 1)
 -> 1 :: 4 :: (take (map sqr [3]) 0)
 -> 1 :: 4 :: []
@@ -16,8 +18,11 @@
 
 (* Part 2: call-by-value
    take (map sqr [1;2;3]) 2
+-> take ((sqr 1) :: (map sqr [2;3])) 2
 -> take (1 :: (map sqr [2;3])) 2
+-> take (1 :: (sqr 2) :: (map sqr [3])) 2
 -> take (1 :: 4 :: (map sqr [3])) 2
+-> take (1 :: 4 :: (sqr 3) :: (map sqr [])) 2
 -> take (1 :: 4 :: 9 :: (map sqr [])) 2
 -> take (1 :: 4 :: 9 :: []) 2
 -> 1 :: (take (4 :: 9 :: []) 1)

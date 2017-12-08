@@ -33,12 +33,10 @@ Part 2: Show the steps in call-by-value evaluation below
 = head (append (1::(append [2] [3])) [4])
 = head (append (1::2::(append [] [3])) [4])
 = head (append (1::2::[3]) [4])
-= head (append [1;2;3] [4])
-= head 1::(append [2;3] [4])
+= head 1::(append 2::[3] [4])
 = head 1::2::(append [3] [4])
 = head 1::2::3::(append [] [4])
 = head 1::2::3::[4]
-= head [1;2;3;4]
 = 1
 
 *)
@@ -119,7 +117,6 @@ let rec exp' m =
     b * b * (if n mod 2 = 0 then 1 else m)
 
 (* Part 1 
-
     c1 = the cost of returning from a recursive call
     c2 = the cost of multiplication
     T(n) = c1             if n = 0

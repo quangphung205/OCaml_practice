@@ -2,7 +2,7 @@
 
 #### Total score: _10_ / _10_
 
-Run on October 23, 09:25:25 AM.
+Run on December 11, 12:49:02 PM.
 
 +  _5_ / _5_ : Pass: Check that file "lab07.ml" exists.
 
